@@ -1,10 +1,21 @@
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\
+*                                                                     *
+*                           IES CAMPANILLAS                           *
+*                                                                     *
+*   - Alejandro Aguilera García                                       *
+*   - Narciso Gonzalez Calderón                                       *
+*   - Ernesto Hernandez Mangas                                        *
+*   - Alfonso Urbano Ruz                                              *
+*                                                                     *
+\* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
 CREATE TABLE jugador
 (
   CodJug INT NOT NULL, -- PK
   NomJug VARCHAR(40) NOT NULL,
   ApeJug VARCHAR(40) NOT NULL,
-  DNIJug CHAR(9) NOT NULL,
-  PosJug VARCHAR(50) NOT NULL,
+  DNIJug CHAR(9) NOT NULL UNIQUE CHECK (DNIJug LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][A-Z]'),
+  PosJug VARCHAR(50) NOT NULL CHECK (PosJug IN ('Portero', 'Delantero', 'Defensa', 'Medio-Centro')),
   PRIMARY KEY (CodJug)
 );
 
@@ -13,7 +24,7 @@ CREATE TABLE entrenador
   CodEnt INT NOT NULL, -- PK
   NomEnt VARCHAR(40) NOT NULL,
   ApeEnt VARCHAR(40) NOT NULL,
-  DNIEnt CHAR(9) NOT NULL,
+  DNIEnt CHAR(9) NOT NULL UNIQUE CHECK (DNIEnt LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][A-Z]'),
   PRIMARY KEY (CodEnt)
 );
 
@@ -22,7 +33,7 @@ CREATE TABLE ojeador
   CodOje INT NOT NULL, -- PK
   NomOje VARCHAR(40) NOT NULL,
   ApeOje VARCHAR(40) NOT NULL,
-  DNIOje CHAR(9) NOT NULL,
+  DNIOje CHAR(9) NOT NULL UNIQUE CHECK (DNIOje LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][A-Z]'),
   PRIMARY KEY (CodOje)
 );
 
@@ -30,8 +41,8 @@ CREATE TABLE estadio
 (
   CodEst INT NOT NULL, -- PK
   NomEst VARCHAR(40) NOT NULL,
-  PaisEst INT NOT NULL,
-  CiuEst INT NOT NULL,
+  PaisEst VARCHAR(40) NOT NULL,
+  CiuEst VARCHAR(40) NOT NULL,
   CapacEst INT NOT NULL,
   PRIMARY KEY (CodEst)
 );
@@ -53,8 +64,8 @@ CREATE TABLE partido
   CodEquiVis INT NOT NULL,
   CodJugMVP INT NOT NULL,
   CodEst INT NOT NULL,
-  FecPar INT NOT NULL,
-  ResPar INT NOT NULL,
+  FecPar TIMESTAMP NOT NULL,
+  ResPar CHAR(1) NOT NULL CHECK (ResPar IN ('1', 'X', '2')),
   /* PS/SQL */
   PRIMARY KEY (CodPar),
   FOREIGN KEY (CodEquiLoc) REFERENCES equipo(CodEqui),
@@ -87,8 +98,8 @@ CREATE TABLE contrato_jugador
   CodEqui INT NOT NULL,
   CodJug INT NOT NULL,
   SalConJug INT NOT NULL,
-  FecIniConJug INT NOT NULL,
-  FecFinConJug INT NOT NULL,
+  FecIniConJug DATE NOT NULL,
+  FecFinConJug DATE NOT NULL,
   ClausConJug INT NOT NULL,
   PRIMARY KEY (CodContJug),
   FOREIGN KEY (CodJug) REFERENCES jugador(CodJug),
@@ -102,9 +113,9 @@ CREATE TABLE contrato_entrenador
   CodEqui INT NOT NULL,
   CodEnt INT NOT NULL,
   SalConEnt INT NOT NULL,
-  FecIniConJug INT NOT NULL,
-  FecFinConJug INT NOT NULL,
-  ClausConJug INT NOT NULL,
+  FecIniConEnt DATE NOT NULL,
+  FecFinConEnt DATE NOT NULL,
+  ClausConEnt INT NOT NULL,
   PRIMARY KEY (CodContEnt),
   FOREIGN KEY (CodEqui) REFERENCES equipo(CodEqui),
   FOREIGN KEY (CodEnt) REFERENCES entrenador(CodEnt),
