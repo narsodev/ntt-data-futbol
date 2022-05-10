@@ -1,10 +1,21 @@
-CREATE TABLE jugador -- Jugador
+/* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\
+*                                                                     *
+*                           IES CAMPANILLAS                           *
+*                                                                     *
+*   - Alejandro Aguilera García                                       *
+*   - Narciso Gonzalez Calderón                                       *
+*   - Ernesto Hernandez Mangas                                        *
+*   - Alfonso Urbano Ruz                                              *
+*                                                                     *
+\* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
+
+CREATE TABLE jugador
 (
   CodJug INT NOT NULL, -- PK del jugador
   NomJug VARCHAR(40) NOT NULL, -- Nombre del jugador
   ApeJug VARCHAR(40) NOT NULL, -- Apellidos del jugador
-  DNIJug CHAR(9) NOT NULL, -- DNI del jugador
-  PosJug VARCHAR(50) NOT NULL, -- Posición del jugador
+  DNIJug CHAR(9) NOT NULL UNIQUE CHECK (DNIJug LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][A-Z]'), -- DNI del jugador
+  PosJug VARCHAR(50) NOT NULL CHECK (PosJug IN ('Portero', 'Delantero', 'Defensa', 'Medio-Centro')), -- Posición del jugador
   PRIMARY KEY (CodJug)
 );
 
@@ -13,7 +24,7 @@ CREATE TABLE entrenador -- Entrenador
   CodEnt INT NOT NULL, -- PK del entrenador
   NomEnt VARCHAR(40) NOT NULL, -- Nombre del entrenador
   ApeEnt VARCHAR(40) NOT NULL, -- Apellidos del entrenador
-  DNIEnt CHAR(9) NOT NULL, -- DNI del entrenador
+  DNIEnt CHAR(9) NOT NULL UNIQUE CHECK (DNIEnt LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][A-Z]'), -- DNI del entrenador
   PRIMARY KEY (CodEnt)
 );
 
@@ -22,7 +33,7 @@ CREATE TABLE ojeador -- Ojeador
   CodOje INT NOT NULL, -- PK del ojeador
   NomOje VARCHAR(40) NOT NULL, -- Nombre del ojeador
   ApeOje VARCHAR(40) NOT NULL, -- Apellidos del ojeador
-  DNIOje CHAR(9) NOT NULL, -- DNI del ojeador
+  DNIOje CHAR(9) NOT NULL UNIQUE CHECK (DNIOje LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][A-Z]'), -- DNI del ojeador
   PRIMARY KEY (CodOje)
 );
 
@@ -30,8 +41,8 @@ CREATE TABLE estadio -- Estadio
 (
   CodEst INT NOT NULL, -- PK del estadio
   NomEst VARCHAR(40) NOT NULL, -- Nombre del estadio
-  PaisEst INT NOT NULL, -- País en el que se encuentra el estadio
-  CiuEst INT NOT NULL, -- Ciudad en la que se encuentra el estadio
+  PaisEst VARCHAR(40) NOT NULL, -- País en el que se encuentra el estadio
+  CiuEst VARCHAR(40) NOT NULL, -- Ciudad en la que se encuentra el estadio
   CapacEst INT NOT NULL, -- Capacidad del estadio
   PRIMARY KEY (CodEst)
 );
@@ -53,8 +64,9 @@ CREATE TABLE partido -- Partido
   CodEquiVis INT NOT NULL, -- FK del equipo visitante
   CodJugMVP INT NOT NULL, -- FK del jugador MVP
   CodEst INT NOT NULL, -- FK del estadio en el que se jugó el partido
-  FecPar INT NOT NULL, -- Fecha en la que se disputó el partido
-  ResPar INT NOT NULL, -- Resultado del partido (Quiniela: 1 - x - 2),
+  FecPar TIMESTAMP NOT NULL, -- Fecha en la que se disputó el partido
+  ResPar CHAR(1) NOT NULL CHECK (ResPar IN ('1', 'X', '2')), -- Resultado del partido (Quiniela: 1 - x - 2)
+  /* PS/SQL */
   PRIMARY KEY (CodPar),
   FOREIGN KEY (CodEquiLoc) REFERENCES equipo(CodEqui),
   FOREIGN KEY (CodEquiVis) REFERENCES equipo(CodEqui),
@@ -86,8 +98,8 @@ CREATE TABLE contrato_jugador -- Contrato entre un equipo y un jugador
   CodEqui INT NOT NULL, -- FK del equipo que contrata
   CodJug INT NOT NULL, -- FK del jugador
   SalConJug INT NOT NULL, -- Salario del jugador
-  FecIniConJug INT NOT NULL, -- Fecha de inicio del contrato
-  FecFinConJug INT NOT NULL, -- Fecha de fin del contrato
+  FecIniConJug DATE NOT NULL, -- Fecha de inicio del contrato
+  FecFinConJug DATE NOT NULL, -- Fecha de fin del contrato
   ClausConJug INT NOT NULL, -- Cláusula del contrato
   PRIMARY KEY (CodContJug),
   FOREIGN KEY (CodJug) REFERENCES jugador(CodJug),
@@ -101,8 +113,8 @@ CREATE TABLE contrato_entrenador -- Contrato entre un equipo y un entrenador
   CodEqui INT NOT NULL, -- FK del equipo que contrata
   CodEnt INT NOT NULL, -- FK del entrenador
   SalConEnt INT NOT NULL, -- Salario del entrenador
-  FecIniConEnt INT NOT NULL, -- Fecha de inicio del contrato
-  FecFinConEnt INT NOT NULL, -- Fecha de fin del contrato
+  FecIniConEnt DATE NOT NULL, -- Fecha de inicio del contrato
+  FecFinConEnt DATE NOT NULL, -- Fecha de fin del contrato
   ClausConEnt INT NOT NULL, -- Cláusula del contrato
   PRIMARY KEY (CodContEnt),
   FOREIGN KEY (CodEqui) REFERENCES equipo(CodEqui),
