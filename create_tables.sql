@@ -1,61 +1,60 @@
-CREATE TABLE jugador
+CREATE TABLE jugador -- Jugador
 (
-  CodJug INT NOT NULL, -- PK
-  NomJug VARCHAR(40) NOT NULL,
-  ApeJug VARCHAR(40) NOT NULL,
-  DNIJug CHAR(9) NOT NULL,
-  PosJug VARCHAR(50) NOT NULL,
+  CodJug INT NOT NULL, -- PK del jugador
+  NomJug VARCHAR(40) NOT NULL, -- Nombre del jugador
+  ApeJug VARCHAR(40) NOT NULL, -- Apellidos del jugador
+  DNIJug CHAR(9) NOT NULL, -- DNI del jugador
+  PosJug VARCHAR(50) NOT NULL, -- Posición del jugador
   PRIMARY KEY (CodJug)
 );
 
-CREATE TABLE entrenador
+CREATE TABLE entrenador -- Entrenador
 (
-  CodEnt INT NOT NULL, -- PK
-  NomEnt VARCHAR(40) NOT NULL,
-  ApeEnt VARCHAR(40) NOT NULL,
-  DNIEnt CHAR(9) NOT NULL,
+  CodEnt INT NOT NULL, -- PK del entrenador
+  NomEnt VARCHAR(40) NOT NULL, -- Nombre del entrenador
+  ApeEnt VARCHAR(40) NOT NULL, -- Apellidos del entrenador
+  DNIEnt CHAR(9) NOT NULL, -- DNI del entrenador
   PRIMARY KEY (CodEnt)
 );
 
-CREATE TABLE ojeador
+CREATE TABLE ojeador -- Ojeador
 (
-  CodOje INT NOT NULL, -- PK
-  NomOje VARCHAR(40) NOT NULL,
-  ApeOje VARCHAR(40) NOT NULL,
-  DNIOje CHAR(9) NOT NULL,
+  CodOje INT NOT NULL, -- PK del ojeador
+  NomOje VARCHAR(40) NOT NULL, -- Nombre del ojeador
+  ApeOje VARCHAR(40) NOT NULL, -- Apellidos del ojeador
+  DNIOje CHAR(9) NOT NULL, -- DNI del ojeador
   PRIMARY KEY (CodOje)
 );
 
-CREATE TABLE estadio
+CREATE TABLE estadio -- Estadio
 (
-  CodEst INT NOT NULL, -- PK
-  NomEst VARCHAR(40) NOT NULL,
-  PaisEst INT NOT NULL,
-  CiuEst INT NOT NULL,
-  CapacEst INT NOT NULL,
+  CodEst INT NOT NULL, -- PK del estadio
+  NomEst VARCHAR(40) NOT NULL, -- Nombre del estadio
+  PaisEst INT NOT NULL, -- País en el que se encuentra el estadio
+  CiuEst INT NOT NULL, -- Ciudad en la que se encuentra el estadio
+  CapacEst INT NOT NULL, -- Capacidad del estadio
   PRIMARY KEY (CodEst)
 );
 
-CREATE TABLE equipo
+CREATE TABLE equipo -- Equipo
 (
-  CodEqui INT NOT NULL, -- PK
-  CodEst INT NOT NULL,
-  NomEqui VARCHAR(40) NOT NULL,
-  LigGan INT NOT NULL,
+  CodEqui INT NOT NULL, -- PK del equipo
+  CodEst INT NOT NULL, -- FK del estadio
+  NomEqui VARCHAR(40) NOT NULL, -- Nombre del equipo
+  LigGan INT NOT NULL, -- Campeonatos de Liga ganados por el equipo
   PRIMARY KEY (CodEqui),
   FOREIGN KEY (CodEst) REFERENCES estadio(CodEst)
 );
 
-CREATE TABLE partido
+CREATE TABLE partido -- Partido
 (
-  CodPar INT NOT NULL, -- PK
-  CodEquiLoc INT NOT NULL,
-  CodEquiVis INT NOT NULL,
-  CodJugMVP INT NOT NULL,
-  CodEst INT NOT NULL,
-  FecPar INT NOT NULL,
-  ResPar INT NOT NULL,
-  /* PS/SQL */
+  CodPar INT NOT NULL, -- PK del partido
+  CodEquiLoc INT NOT NULL,  -- FK del equipo local
+  CodEquiVis INT NOT NULL, -- FK del equipo visitante
+  CodJugMVP INT NOT NULL, -- FK del jugador MVP
+  CodEst INT NOT NULL, -- FK del estadio en el que se jugó el partido
+  FecPar INT NOT NULL, -- Fecha en la que se disputó el partido
+  ResPar INT NOT NULL, -- Resultado del partido (Quiniela: 1 - x - 2),
   PRIMARY KEY (CodPar),
   FOREIGN KEY (CodEquiLoc) REFERENCES equipo(CodEqui),
   FOREIGN KEY (CodEquiVis) REFERENCES equipo(CodEqui),
@@ -63,16 +62,16 @@ CREATE TABLE partido
   FOREIGN KEY (CodEst) REFERENCES estadio(CodEst)
 );
 
-CREATE TABLE gol
+CREATE TABLE gol -- Gol
 (
-  CodGol INT NOT NULL, -- PK
-  CodEquiGoleador INT NOT NULL,
-  CodEquiGoleado INT NOT NULL,
-  CodJug INT NOT NULL,
-  CodJugAsis INT,
-  CodPar INT NOT NULL,
-  MinGol INT NOT NULL,
-  PuntGol INT NOT NULL,
+  CodGol INT NOT NULL, -- PK del gol
+  CodEquiGoleador INT NOT NULL, -- FK del equipo que marcó el gol
+  CodEquiGoleado INT NOT NULL, -- FK del equipo que recibió el gol
+  CodJug INT NOT NULL, -- FK del jugador que marcó el gol
+  CodJugAsis INT, -- FK del jugador que asistió el gol
+  CodPar INT NOT NULL, -- FK del partido en el que se marcó el gol
+  MinGol INT NOT NULL, -- Minuto en el que se marcó el gol
+  PuntGol INT NOT NULL, -- Puntuación del gol
   PRIMARY KEY (CodGol),
   FOREIGN KEY (CodPar) REFERENCES partido(CodPar),
   FOREIGN KEY (CodJug) REFERENCES jugador(CodJug),
@@ -81,62 +80,63 @@ CREATE TABLE gol
   FOREIGN KEY (CodEquiGoleado) REFERENCES equipo(CodEqui)
 );
 
-CREATE TABLE contrato_jugador
+CREATE TABLE contrato_jugador -- Contrato entre un equipo y un jugador
 (
-  CodContJug INT NOT NULL, -- PK
-  CodEqui INT NOT NULL,
-  CodJug INT NOT NULL,
-  SalConJug INT NOT NULL,
-  FecIniConJug INT NOT NULL,
-  FecFinConJug INT NOT NULL,
-  ClausConJug INT NOT NULL,
+  CodContJug INT NOT NULL, -- PK del contrato
+  CodEqui INT NOT NULL, -- FK del equipo que contrata
+  CodJug INT NOT NULL, -- FK del jugador
+  SalConJug INT NOT NULL, -- Salario del jugador
+  FecIniConJug INT NOT NULL, -- Fecha de inicio del contrato
+  FecFinConJug INT NOT NULL, -- Fecha de fin del contrato
+  ClausConJug INT NOT NULL, -- Cláusula del contrato
   PRIMARY KEY (CodContJug),
   FOREIGN KEY (CodJug) REFERENCES jugador(CodJug),
   FOREIGN KEY (CodEqui) REFERENCES equipo(CodEqui),
   UNIQUE (CodJug, CodEqui)
 );
 
-CREATE TABLE contrato_entrenador
+CREATE TABLE contrato_entrenador -- Contrato entre un equipo y un entrenador
 (
-  CodContEnt INT NOT NULL, -- PK
-  CodEqui INT NOT NULL,
-  CodEnt INT NOT NULL,
-  SalConEnt INT NOT NULL,
-  FecIniConJug INT NOT NULL,
-  FecFinConJug INT NOT NULL,
-  ClausConJug INT NOT NULL,
+  CodContEnt INT NOT NULL, -- PK del contrato
+  CodEqui INT NOT NULL, -- FK del equipo que contrata
+  CodEnt INT NOT NULL, -- FK del entrenador
+  SalConEnt INT NOT NULL, -- Salario del entrenador
+  FecIniConEnt INT NOT NULL, -- Fecha de inicio del contrato
+  FecFinConEnt INT NOT NULL, -- Fecha de fin del contrato
+  ClausConEnt INT NOT NULL, -- Cláusula del contrato
   PRIMARY KEY (CodContEnt),
   FOREIGN KEY (CodEqui) REFERENCES equipo(CodEqui),
   FOREIGN KEY (CodEnt) REFERENCES entrenador(CodEnt),
   UNIQUE (CodEqui, CodEnt)
 );
 
-CREATE TABLE contrato_ojeador
+CREATE TABLE contrato_ojeador -- Contrato entre un equipo y un ojeador
 (
-  CodContOje INT NOT NULL, -- PK
-  SalOje INT NOT NULL,
-  CodEqui INT NOT NULL,
-  CodOje INT NOT NULL,
+  CodContOje INT NOT NULL, -- PK del contrato
+  CodEqui INT NOT NULL, -- FK del equipo
+  CodOje INT NOT NULL, -- FK del ojeador
+  SalOje INT NOT NULL, -- Salario del contrato
   PRIMARY KEY (CodOje, CodEqui),
   FOREIGN KEY (CodEqui) REFERENCES equipo(CodEqui),
   FOREIGN KEY (CodOje) REFERENCES ojeador(CodOje)
 );
 
-CREATE TABLE jugador_partido
+CREATE TABLE jugador_partido -- Relación entre un partido y un jugador
 (
-  CodJug INT NOT NULL, -- PK, FK
-  CodPar INT NOT NULL, -- PK, FK
-  MinEnt INT NOT NULL,
-  MinSal INT NOT NULL,
+  CodJug INT NOT NULL, -- FK del jugador (PK)
+  CodPar INT NOT NULL, -- FK del partido (PK)
+  MinEnt INT NOT NULL, -- Minuto de entrada al partido
+  MinSal INT NOT NULL, -- Minuto de salida del partido
   PRIMARY KEY (CodJug, CodPar),
   FOREIGN KEY (CodJug) REFERENCES jugador(CodJug),
   FOREIGN KEY (CodPar) REFERENCES partido(CodPar)
 );
 
-CREATE TABLE ojeador_partido
+
+CREATE TABLE ojeador_partido -- Relación entre un partido y un ojeador
 (
-  CodOje INT NOT NULL, -- PK, FK
-  CodPar INT NOT NULL, -- PK, FK
+  CodOje INT NOT NULL, -- FK del ojeador (PK)
+  CodPar INT NOT NULL, -- FK del partido (PK)
   PRIMARY KEY (CodOje, CodPar),
   FOREIGN KEY (CodOje) REFERENCES ojeador(CodOje),
   FOREIGN KEY (CodPar) REFERENCES partido(CodPar)
