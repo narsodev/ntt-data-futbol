@@ -32,10 +32,11 @@ SELECT FROM bbbfutbol.estadio WHERE CiuEst LIKE 'Málaga' OR CiuEst LIKE 'Sevill
 -- Consultas Medias / Complejas --
 ----------------------------------
 
--- Cantidad de estadios por ciudad
+-- Cantidad de estadios por ciudad (Mas de un estadio)
 SELECT CiuEst AS Ciudad, COUNT(CodEst) AS CantidadEstadios
 FROM bbddfutbol.estadio
-GROUP BY CiuEst;
+GROUP BY CiuEst
+HAVING CantidadEstadios > 1;
 
 -- Cantidad de goles por jugador (jugadores sin gol también aparecen)
 SELECT jugador.NomJug AS Jugador, COUNT(gol.CodGol) AS Goles
@@ -46,3 +47,7 @@ GROUP BY gol.CodJug;
 SELECT equipo.NomEqui AS NombreEquipo, COUNT(contrato_jugador.CodJug) AS Jugadores
 FROM contrato_jugador RIGHT JOIN equipo ON equipo.CodEqui = contrato_jugador.CodEqui
 GROUP BY contrato_jugador.CodEqui;
+
+-- Obtener al ojeador Luis Tellez y su sueldo
+SELECT ojeador.NomOje, contrato_ojeador.SalOje
+FROM ojeador INNER JOIN contrato_ojeador ON ojeador.CodOje = contrato_ojeador.CodOje
