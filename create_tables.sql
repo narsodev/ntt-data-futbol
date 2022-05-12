@@ -14,8 +14,8 @@ CREATE TABLE jugador
   CodJug INT NOT NULL, -- PK del jugador
   NomJug VARCHAR(40) NOT NULL, -- Nombre del jugador
   ApeJug VARCHAR(40) NOT NULL, -- Apellidos del jugador
-  DNIJug CHAR(9) NOT NULL UNIQUE CHECK (DNIJug LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][A-Z]'), -- DNI del jugador
-  PosJug VARCHAR(50) NOT NULL CHECK (PosJug IN ('Portero', 'Delantero', 'Defensa', 'Medio-Centro')), -- Posición del jugador
+  DNIJug CHAR(9) NOT NULL, -- DNI del jugador
+  PosJug VARCHAR(50) NOT NULL), -- Posición del jugador
   PRIMARY KEY (CodJug)
 );
 
@@ -24,7 +24,7 @@ CREATE TABLE entrenador -- Entrenador
   CodEnt INT NOT NULL, -- PK del entrenador
   NomEnt VARCHAR(40) NOT NULL, -- Nombre del entrenador
   ApeEnt VARCHAR(40) NOT NULL, -- Apellidos del entrenador
-  DNIEnt CHAR(9) NOT NULL UNIQUE CHECK (DNIEnt LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][A-Z]'), -- DNI del entrenador
+  DNIEnt CHAR(9) NOT NULL, -- DNI del entrenador
   PRIMARY KEY (CodEnt)
 );
 
@@ -33,7 +33,7 @@ CREATE TABLE ojeador -- Ojeador
   CodOje INT NOT NULL, -- PK del ojeador
   NomOje VARCHAR(40) NOT NULL, -- Nombre del ojeador
   ApeOje VARCHAR(40) NOT NULL, -- Apellidos del ojeador
-  DNIOje CHAR(9) NOT NULL UNIQUE CHECK (DNIOje LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][A-Z]'), -- DNI del ojeador
+  DNIOje CHAR(9) NOT NULL, -- DNI del ojeador
   PRIMARY KEY (CodOje)
 );
 
@@ -65,7 +65,7 @@ CREATE TABLE partido -- Partido
   CodJugMVP INT NOT NULL, -- FK del jugador MVP
   CodEst INT NOT NULL, -- FK del estadio en el que se jugó el partido
   FecPar TIMESTAMP NOT NULL, -- Fecha en la que se disputó el partido
-  ResPar CHAR(1) NOT NULL CHECK (ResPar IN ('1', 'X', '2')), -- Resultado del partido (Quiniela: 1 - x - 2)
+  ResPar CHAR(1) NOT NULL, -- Resultado del partido (Quiniela: 1 - x - 2)
   /* PS/SQL */
   PRIMARY KEY (CodPar),
   FOREIGN KEY (CodEquiLoc) REFERENCES equipo(CodEqui),
@@ -104,7 +104,7 @@ CREATE TABLE contrato_jugador -- Contrato entre un equipo y un jugador
   PRIMARY KEY (CodContJug),
   FOREIGN KEY (CodJug) REFERENCES jugador(CodJug),
   FOREIGN KEY (CodEqui) REFERENCES equipo(CodEqui),
-  UNIQUE (CodJug, CodEqui)
+  CONSTRAINT dni_unico UNIQUE (CodJug, CodEqui)
 );
 
 CREATE TABLE contrato_entrenador -- Contrato entre un equipo y un entrenador
@@ -119,7 +119,7 @@ CREATE TABLE contrato_entrenador -- Contrato entre un equipo y un entrenador
   PRIMARY KEY (CodContEnt),
   FOREIGN KEY (CodEqui) REFERENCES equipo(CodEqui),
   FOREIGN KEY (CodEnt) REFERENCES entrenador(CodEnt),
-  UNIQUE (CodEqui, CodEnt)
+  CONSTRAINT dni_unico UNIQUE (CodEqui, CodEnt)
 );
 
 CREATE TABLE contrato_ojeador -- Contrato entre un equipo y un ojeador
