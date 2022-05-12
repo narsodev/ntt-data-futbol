@@ -98,8 +98,8 @@ CREATE TABLE contrato_jugador -- Contrato entre un equipo y un jugador
   CodEqui INT NOT NULL, -- FK del equipo que contrata
   CodJug INT NOT NULL, -- FK del jugador
   SalConJug INT NOT NULL, -- Salario del jugador
-  FecIniConJug DATE NOT NULL, -- Fecha de inicio del contrato
-  FecFinConJug DATE NOT NULL, -- Fecha de fin del contrato
+  FecIniConJug TIMESTAMP NOT NULL, -- Fecha de inicio del contrato
+  FecFinConJug TIMESTAMP NOT NULL, -- Fecha de fin del contrato
   ClausConJug INT NOT NULL, -- Cláusula del contrato
   PRIMARY KEY (CodContJug),
   FOREIGN KEY (CodJug) REFERENCES jugador(CodJug),
@@ -113,8 +113,8 @@ CREATE TABLE contrato_entrenador -- Contrato entre un equipo y un entrenador
   CodEqui INT NOT NULL, -- FK del equipo que contrata
   CodEnt INT NOT NULL, -- FK del entrenador
   SalConEnt INT NOT NULL, -- Salario del entrenador
-  FecIniConEnt DATE NOT NULL, -- Fecha de inicio del contrato
-  FecFinConEnt DATE NOT NULL, -- Fecha de fin del contrato
+  FecIniConEnt TIMESTAMP NOT NULL, -- Fecha de inicio del contrato
+  FecFinConEnt TIMESTAMP NOT NULL, -- Fecha de fin del contrato
   ClausConEnt INT NOT NULL, -- Cláusula del contrato
   PRIMARY KEY (CodContEnt),
   FOREIGN KEY (CodEqui) REFERENCES equipo(CodEqui),
@@ -128,6 +128,8 @@ CREATE TABLE contrato_ojeador -- Contrato entre un equipo y un ojeador
   CodEqui INT NOT NULL, -- FK del equipo
   CodOje INT NOT NULL, -- FK del ojeador
   SalOje INT NOT NULL, -- Salario del contrato
+  FecIniConOje TIMESTAMP NOT NULL, -- Fecha de inicio del contrato
+  FecFinConOje TIMESTAMP NOT NULL, -- Fecha de fin del contrato
   PRIMARY KEY (CodOje, CodEqui),
   FOREIGN KEY (CodEqui) REFERENCES equipo(CodEqui),
   FOREIGN KEY (CodOje) REFERENCES ojeador(CodOje)
