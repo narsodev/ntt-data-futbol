@@ -68,10 +68,18 @@ CREATE TABLE partido -- Partido
   ResPar CHAR(1) NOT NULL, -- Resultado del partido (Quiniela: 1 - x - 2)
   /* PS/SQL */
   PRIMARY KEY (CodPar),
-  FOREIGN KEY (CodEquiLoc) REFERENCES equipo(CodEqui),
-  FOREIGN KEY (CodEquiVis) REFERENCES equipo(CodEqui),
-  FOREIGN KEY (CodJugMVP) REFERENCES jugador(CodJug),
-  FOREIGN KEY (CodEst) REFERENCES estadio(CodEst)
+  CONSTRAINT FK_CodEquiLoc FOREIGN KEY (CodEquiLoc)
+    REFERENCES equipo(CodEqui)
+    ON DELETE CASCADE,
+  CONSTRAINT FK_CodEquiVis FOREIGN KEY (CodEquiVis)
+    REFERENCES equipo(CodEqui)
+    ON DELETE CASCADE,
+  CONSTRAINT FK_CodJugMVP FOREIGN KEY (CodJugMVP)
+    REFERENCES jugador(CodJug)
+    ON DELETE CASCADE,
+  CONSTRAINT FK_CodEst FOREIGN KEY (CodEst)
+    REFERENCES estadio(CodEst)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE gol -- Gol
@@ -85,11 +93,21 @@ CREATE TABLE gol -- Gol
   MinGol INT NOT NULL, -- Minuto en el que se marcó el gol
   PuntGol INT NOT NULL, -- Puntuación del gol
   PRIMARY KEY (CodGol),
-  FOREIGN KEY (CodPar) REFERENCES partido(CodPar),
-  FOREIGN KEY (CodJug) REFERENCES jugador(CodJug),
-  FOREIGN KEY (CodJugAsis) REFERENCES jugador(CodJug),
-  FOREIGN KEY (CodEquiGoleador) REFERENCES equipo(CodEqui),
-  FOREIGN KEY (CodEquiGoleado) REFERENCES equipo(CodEqui)
+  CONSTRAINT FK_CodEquiGoleador FOREIGN KEY (CodEquiGoleador)
+    REFERENCES equipo(CodEqui)
+    ON DELETE CASCADE,
+  CONSTRAINT FK_CodEquiGoleado FOREIGN KEY (CodEquiGoleado)
+    REFERENCES equipo(CodEqui)
+    ON DELETE CASCADE,
+  CONSTRAINT FK_CodJug FOREIGN KEY (CodJug)
+    REFERENCES jugador(CodJug)
+    ON DELETE CASCADE,
+  CONSTRAINT FK_CodJugAsis FOREIGN KEY (CodJugAsis)
+    REFERENCES jugador(CodJug)
+    ON DELETE SET NULL,
+  CONSTRAINT FK_CodPar FOREIGN KEY (CodPar)
+    REFERENCES partido(CodPar)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE contrato_jugador -- Contrato entre un equipo y un jugador
@@ -102,9 +120,12 @@ CREATE TABLE contrato_jugador -- Contrato entre un equipo y un jugador
   FecFinConJug TIMESTAMP NOT NULL, -- Fecha de fin del contrato
   ClausConJug INT NOT NULL, -- Cláusula del contrato
   PRIMARY KEY (CodContJug),
-  FOREIGN KEY (CodJug) REFERENCES jugador(CodJug),
-  FOREIGN KEY (CodEqui) REFERENCES equipo(CodEqui),
-  CONSTRAINT dni_unico UNIQUE (CodJug, CodEqui)
+  CONSTRAINT C_J_FK_CodEqui FOREIGN KEY (CodEqui)
+    REFERENCES equipo(CodEqui)
+    ON DELETE CASCADE,
+  CONSTRAINT C_J_FK_CodJug FOREIGN KEY (CodJug)
+    REFERENCES jugador(CodJug)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE contrato_entrenador -- Contrato entre un equipo y un entrenador
@@ -117,9 +138,12 @@ CREATE TABLE contrato_entrenador -- Contrato entre un equipo y un entrenador
   FecFinConEnt TIMESTAMP NOT NULL, -- Fecha de fin del contrato
   ClausConEnt INT NOT NULL, -- Cláusula del contrato
   PRIMARY KEY (CodContEnt),
-  FOREIGN KEY (CodEqui) REFERENCES equipo(CodEqui),
-  FOREIGN KEY (CodEnt) REFERENCES entrenador(CodEnt),
-  CONSTRAINT dni_unico UNIQUE (CodEqui, CodEnt)
+  CONSTRAINT C_E_FK_CodEqui FOREIGN KEY (CodEqui)
+    REFERENCES equipo(CodEqui)
+    ON DELETE CASCADE,
+  CONSTRAINT C_E_FK_CodEnt FOREIGN KEY (CodEnt)
+    REFERENCES entrenador(CodEnt)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE contrato_ojeador -- Contrato entre un equipo y un ojeador
@@ -131,8 +155,12 @@ CREATE TABLE contrato_ojeador -- Contrato entre un equipo y un ojeador
   FecIniConOje TIMESTAMP NOT NULL, -- Fecha de inicio del contrato
   FecFinConOje TIMESTAMP NOT NULL, -- Fecha de fin del contrato
   PRIMARY KEY (CodOje, CodEqui),
-  FOREIGN KEY (CodEqui) REFERENCES equipo(CodEqui),
-  FOREIGN KEY (CodOje) REFERENCES ojeador(CodOje)
+  CONSTRAINT C_O_FK_CodEqui FOREIGN KEY (CodEqui)
+    REFERENCES equipo(CodEqui)
+    ON DELETE CASCADE,
+  CONSTRAINT C_O_FK_CodOje FOREIGN KEY (CodOje)
+    REFERENCES ojeador(CodOje)
+    ON DELETE CASCADE
 );
 
 CREATE TABLE jugador_partido -- Relación entre un partido y un jugador
@@ -142,16 +170,23 @@ CREATE TABLE jugador_partido -- Relación entre un partido y un jugador
   MinEnt INT NOT NULL, -- Minuto de entrada al partido
   MinSal INT NOT NULL, -- Minuto de salida del partido
   PRIMARY KEY (CodJug, CodPar),
-  FOREIGN KEY (CodJug) REFERENCES jugador(CodJug),
-  FOREIGN KEY (CodPar) REFERENCES partido(CodPar)
+  CONSTRAINT J_P_FK_CodJug FOREIGN KEY (CodJug)
+    REFERENCES jugador(CodJug)
+    ON DELETE CASCADE,
+  CONSTRAINT J_P_FK_CodPar FOREIGN KEY (CodPar)
+    REFERENCES partido(CodPar)
+    ON DELETE CASCADE
 );
-
 
 CREATE TABLE ojeador_partido -- Relación entre un partido y un ojeador
 (
   CodOje INT NOT NULL, -- FK del ojeador (PK)
   CodPar INT NOT NULL, -- FK del partido (PK)
   PRIMARY KEY (CodOje, CodPar),
-  FOREIGN KEY (CodOje) REFERENCES ojeador(CodOje),
-  FOREIGN KEY (CodPar) REFERENCES partido(CodPar)
+  CONSTRAINT O_P_FK_CodOje FOREIGN KEY (CodOje)
+    REFERENCES ojeador(CodOje)
+    ON DELETE CASCADE,
+  CONSTRAINT O_P_FK_CodPar FOREIGN KEY (CodPar)
+    REFERENCES partido(CodPar)
+    ON DELETE CASCADE
 );
