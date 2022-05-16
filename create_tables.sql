@@ -66,7 +66,6 @@ CREATE TABLE partido -- Partido
   CodEst INT NOT NULL, -- FK del estadio en el que se jugó el partido
   FecPar TIMESTAMP NOT NULL, -- Fecha en la que se disputó el partido
   ResPar CHAR(1) NOT NULL, -- Resultado del partido (Quiniela: 1 - x - 2)
-  /* PS/SQL */
   PRIMARY KEY (CodPar),
   CONSTRAINT FK_CodEquiLoc FOREIGN KEY (CodEquiLoc)
     REFERENCES equipo(CodEqui)
