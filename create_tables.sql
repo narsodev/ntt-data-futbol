@@ -15,7 +15,7 @@ CREATE TABLE jugador
   NomJug VARCHAR(40) NOT NULL, -- Nombre del jugador
   ApeJug VARCHAR(40) NOT NULL, -- Apellidos del jugador
   DNIJug CHAR(9) NOT NULL, -- DNI del jugador
-  PosJug VARCHAR(50) NOT NULL), -- Posición del jugador
+  PosJug VARCHAR(50) NOT NULL, -- Posición del jugador
   PRIMARY KEY (CodJug)
 );
 
