@@ -13,30 +13,27 @@
 -- Consultas Simples --
 -----------------------
 
--- Consultar estadios de la ciudad 'Málaga'
-SELECT *
+-- Obtener los estadios y su capacidad de la ciudad 'Sevilla'
+SELECT NomEst AS "Estadio", CapacEst AS "Capacidad"
 FROM estadio
-WHERE CiuEst LIKE 'Málaga';
+WHERE CiuEst LIKE 'Sevilla';
 
--- Consultar estadios de la ciudad 'Málaga' o 'Sevilla'
-SELECT *
-FROM estadio
-WHERE
-  CiuEst LIKE 'Málaga' OR
-  CiuEst LIKE 'Sevilla';
+-- Obtener nombre, apellidos y DNI de los entrenadores
+SELECT NomEnt AS "Nombre", ApeEnt "Apellidos", DNIEnt AS "DNI"
+FROM entrenador;
 
 -- Obtener numero de jugadores que juegan de porteros
 SELECT COUNT(CodJug) AS "Número de porteros"
 FROM jugador
 WHERE PosJug LIKE 'Portero';
 
- -- Obtener el máximo numero de ligas ganadas por un equipo y el equipo que las ha ganado
-SELECT NomEqui, LigGan
+-- Obtener el quipo con más ligas y el número de ligas que ganó
+SELECT NomEqui AS "Equipo", LigGan "Ligas ganadas"
 FROM equipo
 ORDER BY 2 DESC
 FETCH FIRST 1 ROWS ONLY;
 
- --Obtener el codigo de los partidos que han tenido ganador (no empate)
+-- Obtener el codigo de los partidos que han tenido ganador (no empate)
 SELECT CodPar
 FROM partido
 WHERE ResPar NOT LIKE 'X';
@@ -45,26 +42,26 @@ WHERE ResPar NOT LIKE 'X';
 -- Consultas Medias / Complejas --
 ----------------------------------
 
--- Cantidad de estadios por ciudad (Mas de un estadio)
+-- Obtener número de estadios por ciudad (mínimo 1)
 SELECT CiuEst AS "Ciudad", COUNT(CodEst) AS "Número de estadios"
 FROM estadio
 GROUP BY CiuEst
 HAVING COUNT(CodEst) > 1;
 
--- Cantidad de goles por jugador (jugadores sin gol también aparecen)
-SELECT jugador.NomJug AS "Jugador", COUNT(gol.CodGol) AS "Goles"
+-- Obtener número de goles por jugador (jugadores sin goles también aparecen)
+SELECT NomJug AS "Jugador", ApeJug AS "Apellidos", COUNT(CodGol) AS "Goles"
 FROM jugador LEFT JOIN gol
   ON jugador.CodJug = gol.CodJug
-GROUP BY jugador.NomJug;
+GROUP BY NomJug, ApeJug;
 
--- Cantidad de jugadores por equipo (todos los equipos)
-SELECT equipo.NomEqui AS "Equipo", COUNT(contrato_jugador.CodJug) AS "Jugadores"
+-- Obtener número de jugadores por equipo
+SELECT NomEqui AS "Equipo", COUNT(CodJug) AS "Númeroe de jugadores"
 FROM contrato_jugador RIGHT JOIN equipo
   ON equipo.CodEqui = contrato_jugador.CodEqui
 GROUP BY equipo.NomEqui;
 
--- Obtener al ojeador Luis Tellez y su sueldo
-SELECT ojeador.NomOje AS "Nombre", ojeador.ApeOje AS "Apellidos", contrato_ojeador.SalOje AS "Sueldo"
+-- Obtener al ojeador Luis Tellez y su salario
+SELECT NomOje AS "Nombre", ApeOje AS "Apellidos", SalOje AS "Salario"
 FROM ojeador INNER JOIN contrato_ojeador
   ON ojeador.NomOje LIKE 'Luis' AND
   ojeador.ApeOje LIKE 'Tellez' AND

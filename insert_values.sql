@@ -34,14 +34,14 @@ SELECT 1 FROM DUAL;
 
 -- Insertamos los estadios
 INSERT ALL
-  INTO estadio VALUES(1, 'La Rosaleda', 'España', 'Málaga', 30044)
+  INTO estadio VALUES(1, 'Ramón Sánchez-Pizjuán', 'España', 'Sevilla', 30044)
   INTO estadio VALUES(2, 'Benito Villamarín', 'España', 'Sevilla', 60721)
 SELECT 1 FROM DUAL;
 
 -- Insertamos los equipos
 INSERT ALL
-  INTO equipo VALUES(1, 1, 'Málaga', 2)
-  INTO equipo VALUES(2, 2, 'Betis', 4)
+  INTO equipo VALUES(1, 1, 'Sevilla FC', 3)
+  INTO equipo VALUES(2, 2, 'Real Betis Balompié', 1)
 SELECT 1 FROM DUAL;
 
 -- Insertamos los contratos de los jugadores
