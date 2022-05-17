@@ -22,18 +22,18 @@ WHERE CiuEst LIKE 'Sevilla';
 SELECT NomEnt AS "Nombre", ApeEnt "Apellidos", DNIEnt AS "DNI"
 FROM entrenador;
 
--- Obtener numero de jugadores que juegan de porteros
+-- Obtener número de jugadores que juegan de porteros
 SELECT COUNT(CodJug) AS "Número de porteros"
 FROM jugador
 WHERE PosJug LIKE 'Portero';
 
--- Obtener el quipo con más ligas y el número de ligas que ganó
+-- Obtener el equipo con más ligas y el número de ligas que ganó
 SELECT NomEqui AS "Equipo", LigGan "Ligas ganadas"
 FROM equipo
 ORDER BY 2 DESC
 FETCH FIRST 1 ROWS ONLY;
 
--- Obtener el codigo de los partidos que han tenido ganador (no empate)
+-- Obtener el código de los partidos en los que no hubo empate
 SELECT CodPar
 FROM partido
 WHERE ResPar NOT LIKE 'X';
@@ -58,11 +58,11 @@ GROUP BY NomJug, ApeJug;
 SELECT NomEqui AS "Equipo", COUNT(CodJug) AS "Númeroe de jugadores"
 FROM contrato_jugador RIGHT JOIN equipo
   ON equipo.CodEqui = contrato_jugador.CodEqui
-GROUP BY equipo.NomEqui;
+GROUP BY NomEqui;
 
--- Obtener al ojeador Luis Tellez y su salario
+-- Obtener al ojeador Alejandro Tellez y su salario
 SELECT NomOje AS "Nombre", ApeOje AS "Apellidos", SalOje AS "Salario"
 FROM ojeador INNER JOIN contrato_ojeador
-  ON ojeador.NomOje LIKE 'Luis' AND
+  ON ojeador.NomOje LIKE 'Alejandro' AND
   ojeador.ApeOje LIKE 'Tellez' AND
   ojeador.CodOje = contrato_ojeador.CodOje;
