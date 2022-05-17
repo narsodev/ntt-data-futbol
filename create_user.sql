@@ -1,5 +1,5 @@
 -- Creación de tablespace.
-CREATE TABLESPACE futbol_manager_tablespace DATAFILE 'C:\Users\Narciso\Desktop\Profesional\Oracle\oradata\XE\futbol_manager_tablespace.dbf' SIZE 10M AUTOEXTEND ON NEXT 10M MAXSIZE UNLIMITED;
+CREATE TABLESPACE futbol_manager_tablespace DATAFILE '(Route to Oracle SQL Install)\Oracle\oradata\XE\futbol_manager_tablespace.dbf' SIZE 10M AUTOEXTEND ON NEXT 10M MAXSIZE UNLIMITED;
 
 -- Generación de usuario, asignación de permisos sobre tablespace.
 alter session set "_ORACLE_SCRIPT"=true;
