@@ -55,7 +55,7 @@ FROM jugador LEFT JOIN gol
 GROUP BY NomJug, ApeJug;
 
 -- Obtener número de jugadores por equipo
-SELECT NomEqui AS "Equipo", COUNT(CodJug) AS "Númeroe de jugadores"
+SELECT NomEqui AS "Equipo", COUNT(CodJug) AS "Número de jugadores"
 FROM contrato_jugador RIGHT JOIN equipo
   ON equipo.CodEqui = contrato_jugador.CodEqui
 GROUP BY NomEqui;
