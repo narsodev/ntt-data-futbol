@@ -97,7 +97,7 @@ CREATE TABLE partido -- Partido
   CodJugMVP INT NOT NULL, -- FK del jugador MVP
   CodEst INT NOT NULL, -- FK del estadio en el que se jugó el partido
   FecPar TIMESTAMP NOT NULL, -- Fecha en la que se disputó el partido
-  ResPar CHAR(1) NOT NULL, -- Resultado del partido (Quiniela: 1 - x - 2)
+  ResPar CHAR(1) NOT NULL, -- Resultado del partido (Quiniela: 1 - X - 2)
   PRIMARY KEY (CodPar),
   CONSTRAINT FK_CodEquiLoc FOREIGN KEY (CodEquiLoc)
     REFERENCES equipo(CodEqui)
@@ -120,7 +120,7 @@ COMMENT ON COLUMN partido.CodEquiVis IS 'Foreign Key del equipo visitante';
 COMMENT ON COLUMN partido.CodJugMVP IS 'Foreign Key del jugador MVP';
 COMMENT ON COLUMN partido.CodEst IS 'Foreign Key del estadio en el que se jugó el partido';
 COMMENT ON COLUMN partido.FecPar IS 'Fecha en la que se disputó el partido';
-COMMENT ON COLUMN partido.ResPar IS 'Resultado del partido (Quiniela: 1 - x - 2)';
+COMMENT ON COLUMN partido.ResPar IS 'Resultado del partido (Quiniela: 1 - X - 2)';
 
 CREATE TABLE gol -- Gol
 (
