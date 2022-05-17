@@ -4,6 +4,5 @@ CREATE TABLESPACE futbol_manager_tablespace DATAFILE 'C:\Users\Narciso\Desktop\P
 -- Generación de usuario, asignación de permisos sobre tablespace.
 alter session set "_ORACLE_SCRIPT"=true;
 CREATE USER futbol_manager IDENTIFIED BY rootroot DEFAULT TABLESPACE futbol_manager_tablespace;
-GRANT CREATE SESSION, ALTER SESSION, CREATE TABLE, CREATE SEQUENCE,
-CREATE TABLESPACE, UNLIMITED TABLESPACE TO futbol_manager;
+GRANT ALL PRIVILEGES TO futbol_manager;
 
